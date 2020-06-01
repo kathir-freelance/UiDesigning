@@ -1,0 +1,75 @@
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+body {
+  background: #1e2440;
+  color: #f2efe2;
+  font-size: 16px;
+}
+ 
+ 
+button:focus {
+    outline: 0;
+}
+ 
+.mycontainer {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 150px 100px;
+    text-align: center;
+}
+ 
+ 
+.mywebapp {
+    margin: 50px auto;
+}
+ 
+#textbox {
+    margin: 30px 0;
+}
+ 
+@media (max-width: 768px) {
+  .mycontainer {
+    width: 85vw;
+    max-width: 85vw;
+  }
+ 
+    button {
+        margin-bottom: 10px;
+}
+}
