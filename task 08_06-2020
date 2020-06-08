@@ -1,0 +1,26 @@
+task 1:
+design for bootstrap
+
+task 2:
+can i write the style using single css() in jquery
+
+  $("input").blur(function(){
+    $(this).css("background-color", "green");
+    $(this).css("width", "200px");
+  });
+
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    alert($("#w3s").attr("href"));
+  });
+});
+</script>
+</head>
+<body>
+
+<p><a href="dummy1" id="w3s">W3Schools.com</a>
+<a href="dummy2" id="w3s">W3Schools.com</a></p>
+
+both href values to be printed - one by one or in single alert?
+
