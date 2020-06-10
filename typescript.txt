@@ -1,0 +1,273 @@
+TypeScript is an open-source object-oriented language.
+
+maintained by Microsoft,
+
+licensed under Apache 2 license. 
+
+It is a typed superset of JavaScript 
+
+TypeScript was developed under Anders Hejlsberg, who also led the creation of the C# language. 
+
+TypeScript was first released in October 2012.
+
+official doc:
+https://www.typescriptlang.org//index.html
+
+
+difference between typescript and js
+
+
+ts : strongly typed
+     obj oriented
+     compiler based
+     static typing
+     support for modules 
+     interfaces
+     optional parameters
+
+js:
+   lightweight 
+   interpreted based
+   dynamic typing
+   doesnt support modules
+   no interfaces
+   no optional parameters
+
+create a typscript code:
+
+A TypeScript code is written in a file with .ts extension
+
+sample.ts---->compiler---->sample.js
+
+installation:
+
+npm install -g typescript
+
+check for tsc version (tsc -> typescript compiler)
+tsc -v
+
+else use online link :
+
+https://www.typescriptlang.org/play
+
+create a file with name demo1.ts and type  some ts codes as shown below
+
+let numb: number = 15;
+console.log(numb);
+
+goto cmd prompt --type
+
+tsc demo1.ts
+
+generates a demo1.js - which contains the equivalent ts code in js
+
+TypeScript - Variable
+
+let,const -es6 syntax
+var - traditional  js syntax
+
+
+In TS , we have diff datatypes:
+
+1. number 
+
+ex:
+
+	let a:number = 123; // number 
+	let b: number = 0x37CF;  // hexadecimal
+	let c:number=0o377 ;      // octal
+	let d: number = 0b111001;// binary  
+
+methods of numbers:
+
+toExponential(n):
+
+	let numb:number = 123; // number 
+	numb.toExponential(2);
+
+toLocaleString():
+
+	let numb:number = 123; // number 
+	numb.toLocaleString('de-DE'); //ar-EG - arabic, en-US,fr-FR,zh-CN,zh-HK
+
+toString():
+
+let myNumber: number = 123;
+myNumber.toString(); // returns '123'
+myNumber.toString(2); // returns '1111011'
+myNumber.toString(4); // returns '1323'
+myNumber.toString(8); // returns '173'
+myNumber.toString(16); // returns '7b'
+myNumber.toString(36); // returns '3f'
+
+max we can give 36 , min no arg or 2
+
+
+check ---valueOf()
+
+String :
+
+let custName:string = 'Ajay'; //use dbl quotes
+
+template strings
+methods like - charAt,uppercase,lowercase,endswith,indexof,repeat,padstart,padend,slice,search
+substring,trim,trimLeft,trimRight
+
+Boolean:
+
+let isUser:boolean = true; 
+ 
+Array:
+
+let fruits: string[] = ['Apple', 'Orange', 'Banana'];
+or
+let fruits: Array<string> = ['Apple', 'Orange', 'Banana'];
+
+can have diff datatypes too
+
+let fruits = [1,23,'Apple',34, 'Orange', 'Banana'];
+
+Multi Type Array:
+==================
+let values: (string | number)[] = [1,23,'Apple',34, 'Orange', 'Banana'];
+// or 
+let values: Array<string | number> = [1,23,'Apple',34, 'Orange', 'Banana'];
+
+
+for(var index in values)
+{ 
+	console.log(index+' '+values[index]);
+}
+
+methods of array:
+
+push,pop,sort,concat,fill,splice,join,slice,includes
+
+
+TUPLE:
+========
+
+Its new in TS
+
+Tuple is a new data type which includes two set of values of different data types.
+
+
+let eid:9001;
+let name:'ajay';
+
+var emp:[number,string]=[eid,name];
+
+A tuple type variable can include multiple data types:
+
+var user: [number, string, boolean]=[1,'aaa',true];
+
+array of tuple:
+
+var employee: [number, string][];
+employee = [[1, "Steve"], [2, "Bill"], [3, "Jeff"]];
+
+task:how will u iterate the above code:
+
+access info from tuple:
+
+var emp:[number,string]=[eid,name];
+console.log(emp[0]); oe emp[1];
+
+
+enum:
+
+enum directions {
+  south,
+  east,
+  west,
+  north
+}
+
+NOTE : default assigns number from 0 as a value of the varibales
+
+enum directions {
+  south = 1,
+  east,
+  west,
+  north
+}
+
+from above scenario : we can also add values for all variables  in directions
+
+enum directions {
+  south='south',
+  east="east",
+  west="west",
+  north="north"
+}
+
+
+hetrogenous enum:
+
+enum Status { 
+    Active = 'ACTIVE', 
+    Deactivate = 1, 
+    Pending
+}
+
+Union:
+========
+let code: (string | number);
+code = 123;   // OK
+code = "ABC"; // OK
+code = false; // Compiler Error
+
+for function :
+function displayType(code: (string | number)){}
+
+ANY datatype:
+=============
+let something: any = "Hello World!"; 
+let arr: any[] = ["John", 212, true]; 
+
+find use of void and never:
+
+readonly :
+
+class Employee {
+    readonly empCode: number;
+    empName: string;
+	
+	constructor(code: number, name: string)     {
+        this.empCode = code;
+        this.empName = name;
+    }
+}
+let emp = new Employee(10, "John");
+
+emp.empCode = 20; //Compiler Error
+
+
+Interface:
+interface IEmployee {
+    readonly empCode: number;
+    empName: string;
+}
+
+let empObj:IEmployee = {
+    empCode:1,
+    empName:"Steve"
+}
+
+empObj.empCode = 100; // Compiler Error: Cannot change readonly 'empCode'
+
+creating module:
+
+create file f1.txt ---saved in file1.ts
+create file f2.txt t ---saved in file1.ts
+
+import and export
+
+import { Employee as Associate } from "./Employee"
+import {Employee} from "./Employee"
+import * as Emp from "./Employee"
+
+https://www.educative.io/blog/typescript-tutorial
+https://www.typescriptlang.org/docs/handbook/basic-types.html
+https://github.com/kathir-freelance/devops-batch2/blob/master/Typescript_Jumpstart_Book.pdf
+
