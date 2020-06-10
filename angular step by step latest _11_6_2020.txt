@@ -1,0 +1,497 @@
+two way binding using property binding + event binding
+
+ing app.comp.html:
+
+<input type="text" [value]="name" (input)="name=$event.target.value">
+or
+<input type="text" [value]="name" (input)="getName($event)">
+<p> You entered {{name}}</p>
+<button (click)="getName()">Clear</button>
+
+
+in app.component.ts
+
+name:string="";
+
+getName(e){
+name=e.target.value;
+}
+
+Instead of above , we can do it in a simple format by using ngModel
+
+to achieve the two-way binding using the syntax [()]
+
+this is like a banana in a box
+
+ngModel:
+===========
+The Angular uses the ngModel directive to achieve the two-way binding on HTML Form elements.
+
+It binds to a form element like input, select, selectarea. etc.
+
+in order to use it, we have to import the formsModule from @angular\forms in our root module (app.module.ts).
+
+its not there in @angular\core
+
+in app.module.ts
+
+import { FormsModule } from '@angular/forms';
+
+and add in ngModule decorator's imports attribute as shown below
+
+imports: [    
+    BrowserModule,    
+    FormsModule    
+  ],    
+
+
+Then in html page - app.comp.html
+
+<input type="text" name="value" [(ngModel)]="value">
+<p> You entered {{value}}</p>
+
+
+Passing data between parent to child vice versa:
+=================================================
+
+Usage of @Input, @output and eventEmitter:
+==============================================
+
+@Input decorator.
+
+@Input links a property of a component (which is generally the child component) with a value that was given by another component (the parent).
+
+@Output decorator is used to link a property of a child component and emit it through the event emitter. So the parent component can call the property and get the data emitted from it.
+
+we create 2 components:
+
+Creating components :
+========================
+use ng generate component [component-name] in cmd prompt
+or
+in short ---> ng g c comp-name
+
+ng g c prod
+
+4 files gets created -
+
+prod-component.ts
+prod-component.html
+prod-component.css
+prod-component.spec.ts
+
+we create 2 components similiarly, parent and child
+
+ let’s create a simple string variable in our parent.component.ts 
+
+ msgToParent: string = '';
+
+in the child.component.ts file, create a variable 
+
+	receivedParentMsg:string;
+
+and add a decorator @Input to it, show it looks like 
+
+	@Input receivedParentMsg:string;
+
+finally parent knows where will the data go in child, now we hv to pass the data to child from parent using the tag
+
+We simply need to pass the parent message when we are calling the child.
+
+<child [receivedParentMsg]="messageToSendP"></child>
+
+then u can print it in child.html 
+
+<h1>{{receivedParentMsg}}
+
+======================================================================
+child to parent data sharing --- uses @output decorator and eventemitter
+
+in parent.component.ts
+
+receivedChildMessage: string;
+
+and then in child.comp.ts
+
+@Output() messageToEmit = new EventEmitter<string>();
+
+this says, he will be emitting only string values, if u need to remove u can.
+
+Now, we can emit our message so that our parent can receive it.
+
+Let’s create a simple function that can be called by clicking on a button for example.
+
+in child.comp.html
+
+<button (click)="sendMessageToParent(messageToSendC)">Send to Parent</button>
+
+in child.component.ts 
+
+sendMessageToParent(message: string) {
+    this.messageToEmit.emit(message)
+}
+
+in parent.component.ts :
+
+receivedChildMessage: string;
+getMessage(message: string) {
+    this.receivedChildMessage = message;
+  }
+
+finally in parent-comp.html:
+
+<app-child (messageToEmit)="getMessage($event)"></app-child>  
+
+
+creating component in details:
+===================================
+
+ng g c product-list
+
+product-list.component.ts
+product-list.component.html
+product-list.component.css -------------X
+product-list.component.spec.ts ---------X
+
+
+we have a product array and iit has to be iterated and diaplayed using product-list component
+
+so we need a product class or interface,
+
+
+create a file --->product.ts
+
+in product.ts
+
+export class Product{
+ 
+  prodId: number;
+  prodName:string ;
+  desc:string;
+  qty:number;
+  price:number;
+}
+
+then in product-list.ts
+
+create a product array info
+
+prod:Product[]=[
+		{prodId:1001,prodName:'tv',desc:'sample',qty:8,price:9898},
+		{prodId:1002,prodName:'ac',desc:'data',qty:8,price:8900},
+		{prodId:1001,prodName:'mobile',desc:'sample',qty:8,price:30898}
+];
+
+then we have to iterate the data in html:
+
+product-list.component.html
+
+<ul *ngFor="let customer of customers;">
+      <li>{{customer.customerNo}}</li>
+      <li>{{customer.name}}</li>
+      <li>{{customer.address}}</li>
+      <li>{{customer.city}}</li>
+      <li>{{customer.state}}</li>
+</ul>
+
+
+Every Component, directive, pipes we build must belong to an Angular Module. To do that we need to register our component in the Module. A Component, directive, piles cannot be part of more than one module.
+
+Angular creates a top-level root module (AppModule in file app.module.ts) when we create a new Angular app. That is where we need to register our component 
+product-list
+
+@NgModule({
+  declarations: [
+    AppComponent, product-list.Component
+  ],
+  imports: [
+    BrowserModule,NgbModule.forRoot()
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+ 
+
+then finally in app.comp.html or in index.html we hv to give
+
+<prod-list></prod-list>
+
+
+Angular Directive:
+=====================
+
+The Angular directive helps us to manipulate the DOM. 
+we can change the appearance, behavior, or layout of a DOM element using the Directives. 
+
+its like extending HTML tags
+
+There are three kinds of directives in Angular:
+
+Component Directive
+Structural directives
+Attribute directives
+
+
+Component Directive: same as above
+
+Structural directives:
+
+The most well known structural directives provided by Angular are *ngIf and *ngFor. 
+
+We can recognize a structural directive by the * in front of its selector name.
+
+ng if:
+=======
+assume in class we have
+
+hide:boolean=false;
+
+<p *ngIf="!hide">
+  {{ name }}
+</p>
+
+equivalent of this 
+
+<ng-template [ngIf]="!hide">
+  <p>
+    {{name}}
+  </p>
+</ng-template>
+
+example:
+
+
+then in class.ts
+
+people: any[] = [
+    {
+      "name": "ajay"
+	"age":35
+    },
+    {
+      "name": "Mike"
+	"age":32
+    },
+    {
+      "name": "Darsh"
+	"age":12
+    },
+    {
+      "name": "Agis"
+	"age":45
+    },
+    {
+      "name": "Tyson"
+	"age":55
+    }
+  ];
+
+in html:
+
+<ul *ngFor="let p of people">
+  <li *ngIf="p.age < 25">
+  {{ p.name }} ({{ p.age }})
+  </li>
+</ul>
+=================================================================================
+NOTE :we cant keep two structural directivees in ul tag:
+=================================================================================
+
+ng for :
+==========
+
+<div *ngFor="let j of jokes"
+	<h1>{{j}}</h1>
+</div>
+
+
+example:
+
+
+in any.html:
+
+template: `
+ <ul>
+  <li *ngFor="let person of people"> 
+    {{ person.name }}
+  </li>
+ </ul>
+ `
+
+then in class.ts
+
+people: any[] = [
+    {
+      "name": "ajay"
+	"age":35
+    },
+    {
+      "name": "Mike"
+	"age":32
+    },
+    {
+      "name": "Darsh"
+	"age":12
+    },
+    {
+      "name": "Agis"
+	"age":45
+    },
+    {
+      "name": "Tyson"
+	"age":55
+    }
+  ];
+
+
+if u need to print the index also then
+
+<ul>
+  <li *ngFor="let person of people; let i = index">
+    {{ i + 1 }} - {{ person.name }}
+  </li>
+</ul>
+
+if u have any nested array:
+
+people: any[] = [
+    {
+      'state': 'Chennai',
+      'people': [
+        {
+          "name": "david"
+        },
+        {
+          "name": "Mike"
+        },
+      ]
+    },
+    {
+      'country': 'Mumbai',
+      'people': [
+        {
+          "name": "Pankaj"
+        },
+        {
+          "name": "Akash"
+        },
+        {
+          "name": "Ankit"
+        }
+      ]
+    }
+  ]; 
+
+
+in html:
+
+<ul *ngFor="let gp1 of people"> 
+   <li>{{ gp1.state}}</li>
+   <ul>
+    <li *ngFor="let person of gp1.people"> 
+      {{ person.name }}
+    </li>
+   </ul>
+ </ul>
+
+ng switch : try
+
+=====================================================================================
+Route Params Directive,Route Configuration Directive,
+Fetch Directive, Observables Directive
+=====================================================================================
+Advanced :
+
+https://netbasal.com/understanding-angular-structural-directives-659acd0f67e
+https://itnext.io/angular-structural-directives-b54ea21b39a7
+https://medium.com/angular-in-depth/having-fun-with-structural-directives-in-angular-69b4d229ad93
+https://netbasal.com/the-power-of-structural-directives-in-angular-bfe4d8c44fb1
+
+
+Attribute Directives:
+
+An Attribute or style directive can change the appearance or behavior of an element.
+
+frequently or commonly  used directives:
+
+ngModel - used already
+
+ngClass - 
+
+
+
+ngStyle -
+
+* directive lets you set a given DOM elements style properties.
+
+<div [ngStyle]="{'background-color':'green'}"></<div>
+
+create a variable in class (.ts)
+
+a=90;
+
+in html 
+
+<div [ngStyle]="{'background-color':a>10 ? 'green' : 'red' }"></<div>
+
+
+task :
+use the above people array 
+
+apply style for all people who belong to chennai in red font and background as black
+
+apply style for all people who belong to chennai in pink font and background as black
+
+we can also use a syntax like:
+==================================
+
+<div [style.color]="red"></div>
+
+The NgClass:
+
+directive allows you to set the CSS class dynamically for a DOM element.
+
+passing obj to ngclass:
+
+<div [ngClass]="btn btn-primary">hi</div>
+
+in style.css
+
+create two class with some styles inside:
+
+.c1{
+color:'red';
+}
+
+.c2{
+background : 'yellow';
+}
+
+
+
+<div [ngClass]="['c1' ,'c2']">hi</div>
+<div class="c1 c2">hi</div>
+<div ngClass="['c1' ,'c2']">hi</div>
+<div className="c1">hi</div>
+
+=====================================================================================
+task :
+-----------
+find  Passing a configuration object to ngClass?
+
+toggle between styles based on button click
+
+diaplay ppl in chennai red and ppl in mumbai as blue using ngclass
+=====================================================================================
+
+Custom Directives:
+
+
+
+We use ngNonBindable when we want tell Angular not to compile, or bind, a particular section of our page.
+
+<div>
+  To render the name variable we use this syntax <pre ngNonBindable>{{ name }}</pre>
+</div>
+
