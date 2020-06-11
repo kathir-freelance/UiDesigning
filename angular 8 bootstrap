@@ -1,0 +1,14 @@
+ in angular.json:
+ 
+ "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/styles.css"              
+            ],
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
+            
+            npm install --save bootstrap
+            
+            npm install --save jquery
