@@ -1,0 +1,169 @@
+in app.module.ts
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+in app.component.ts or in app.component.html
+
+<form #newUserForm="ngForm" (ngSubmit)="onSubmit(newUserForm)">
+
+  <input type="text" placeholder="User name"
+         required maxlength="25"
+         [(ngModel)]="userName" name="userName"
+         #pickedName="ngModel">
+  <div *ngIf="!pickedName.valid && pickedName.touched">
+    User name is required!
+  </div>
+
+  <input type="email" placeholder="Email"
+         required [(ngModel)]="email"
+         name="email" #userEmail="ngModel">
+  <div *ngIf="!userEmail.valid && userEmail.touched">
+    Email is required!
+  </div>
+
+  <input type="text" placeholder="Nick name"
+         [(ngModel)]="nickName" name="nickName">
+
+  <input type="password" placeholder="Password" required
+         [(ngModel)]="password" name="password"
+         #userPassword="ngModel">
+  <div *ngIf="!userPassword.valid && userPassword.touched">
+    Password is required!
+  </div>
+
+<pre>{{ newUserForm.form.value | json }}</pre> <!-- Value of whole form -->
+<pre>User name: {{ pickedName.value }}</pre> <!-- Value of userName field -->
+<pre>Valid form? {{ newUserForm.form.valid | json }}</pre>
+
+
+@Component({ ... })
+export class AppComponent {
+  userName = 'Bob';
+  email: string;
+  nickName: string;
+  password: string;
+
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      console.log(form.value);
+      // ...our form is valid, we can submit the data
+    }
+  }
+}
+  <button type="submit" [disabled]="!newUserForm.form.valid">
+    Register
+  </button>
+
+  <button type="button" (click)="newUserForm.reset()">
+    Reset
+  </button>
+
+</form>
+
+#newUserForm=”ngForm”: 
+Angular automatically attaches an ngForm directive to HTML form elements, 
+but with this, we give our form a template reference name to make it easy to 
+access its value and validity.
+
+With template-driven forms, each field’s validity is controlled by the standard 
+HTML5 validity attributes like required, maxlength or pattern.
+Each form field will be either valid or invalid and the form as a whole is 
+valid only when each field is valid.
+
+We can create template references for form fields with the #someName=”ngModel” syntax.
+We can then use these references to access the value or validity of these fields.
+
+With a template reference in place for a particular field, we can setup messages in 
+the template that are shown (ngIf) depending on states of the field (valid, pristine, 
+touched). Pristine if for when the value of the field hasn’t been changed, and touched 
+is for when a field was focused and then unfocused.
+
+[(ngModel)]=”userName”. This effectively creates two-way data binding,
+
+
+==================================================================================
+
+
+bootstrap ->npm install --save @ng-bootstrap/ng-bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+in ngModule ->
+
+imports: [
+  BrowserModule,
+  AppRoutingModule,
+  NgbModule
+],
+
+then in index.html:
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+========================================================================================
+
+angular routing:
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'privacy', component: PrivacyComponent },
+  { path: 'terms', component: TermsComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
+];
+
+
+in app.comp.html:
+<a routerLink="" routerLinkActive="active">Home </a>
+<a routerLink="about" routerLinkActive="active">About Us</a>
+<a routerLink="privacy" routerLinkActive="active">Privacy Policy</a>
+<a routerLink="terms" routerLinkActive="active">Terms and Conditions</a>
+<div>
+<router-outlet></router-outlet>
+</div>
+
+or use links
+
+
+wild card:
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'about',        component: AboutComponent },
+  { path: 'privacy',        component: PrivacyComponent },
+  { path: 'terms',        component: TermsComponent },
+  { path: '',   redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent }
+];
+
+create a pagenotfoundcomponent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
