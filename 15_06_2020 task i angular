@@ -1,0 +1,15 @@
+read a xlsx file and convert into json and display in a 
+table.
+
+for converting xlsx- optional; possible can try 
+
+read the json in any location
+
+every row should have a edit option at the end
+
+on clicking edit it should be enabled for editing
+
+instead of edit , should display update button
+on clicking update ,save the chnges back to json file also.
+
+and display back the modified info in the table
