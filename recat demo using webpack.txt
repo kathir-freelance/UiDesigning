@@ -1,0 +1,114 @@
+using webpack 
+
+Step 1: Initialize NPM (Node Package Manager)
+mkdir new-react-app
+cd new-react-app
+npm init --y
+We can use the --y to get the basic configuration and scafolding for our Node project.
+
+Step 2: Install React, Webpack, and Babel
+npm install react react-dom 
+npm install --save-dev webpack webpack-dev-server html-webpack-plugin @babel/core babel-loader @babel/preset-env @babel/preset-react 
+npm install --save-dev webpack-cli
+
+Here's what each package does:
+
+react: UI library for creating modular components
+
+react-dom: enables us to render the React within the browser DOM
+
+webpack: bundler that converts your source code into production-ready output
+
+webpack-dev-server: transforms our source code and serves it on a web server as we develop it continuously. This helps use see the output of your code in the browser.
+
+html-webpack-plugin: an extension to webpack that adds the basic index html file
+
+@babel/core: a JavaScript transpiler to converts modern JavaScript into a production-ready version that's compatible with all browsers.
+
+babel-loader: connects Babel to webpack's build process
+
+@babel/preset-env: group of commonly used Babel plugins bundled into a preset that converts modern JavaScript features into widely compatible syntax
+
+@babel/preset-react: React-specific Babel plugins that convert JSX syntax into plain old JavaScript that browsers can understand
+
+Quick note: --save-dev flag is for partitioning the dependencies into development-specific dependencies, so that they are not included in the production JavaScript bundle
+
+Step 3: Create the files
+Let's create the files now.
+
+echo > webpack.config.js
+mkdir src
+cd src
+echo > index.js
+echo > index.html
+Copy and paste the following code into each file:
+
+This is the webpack configuration-initial setup.
+
+webpack.config.js
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  // the output bundle won't be optimized for production but suitable for development
+  mode: 'development',
+  // the app entry point is /src/index.js
+  entry: path.resolve(__dirname, 'src', 'index.js'),
+  output: {
+  	// the output of the webpack build will be in /dist directory
+    path: path.resolve(__dirname, 'dist'),
+    // the filename of the JS bundle will be bundle.js
+    filename: 'bundle.js'
+  },
+  module: {
+    rules: [
+      {
+      	// for any file with a suffix of js or jsx
+        test: /\.jsx?$/,
+        // ignore transpiling JavaScript from node_modules as it should be that state
+        exclude: /node_modules/,
+        // use the babel-loader for transpiling JavaScript to a suitable format
+        loader: 'babel-loader',
+        options: {
+          // attach the presets to the loader (most projects use .babelrc file instead)
+          presets: ["@babel/preset-env", "@babel/preset-react"]
+        }
+      }
+    ]
+  },
+  // add a custom index.html as the template
+  plugins: [new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'index.html') })]
+};
+I recommend reading the Webpack documentation when you need to evolve this file.
+
+src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<h1>Helloworld React!</h1>, document.getElementById('root'));
+This is the app's entry point. It uses the react-dom library to render a heading inside the div with the id root. Whenever we use JSX, we should import the React library. Also, thanks to Babel and the presets, this code is converted to plain old JavaScript in the file bundle file, so that all browsers can comprehend the code.
+
+src/index.html
+<html>
+  <head>
+    <title>Hello world App</title>
+  </head>
+  <body>
+  <div id="root"></div>
+  <script src="bundle.js"></script>
+  </body>
+</html>
+Our custom html file with the div tag for injecting React code and script tag for loading the JS bundle.
+
+Step 4: Create NPM run scripts
+Modify package.json scripts property to include the following npm scripts:
+
+  // package.json
+    ...
+  "scripts": {
+    "start": "webpack-dev-server --open",
+    "build": "webpack"
+  },
+  ...
+For production, you should create a seperate config that extends and modifies the development version.
+
