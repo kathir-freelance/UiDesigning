@@ -1,0 +1,76 @@
+java script -> live script
+
+js framework
+
+
+client- browser and server side - node -> DENO 1.1
+
+JRE and JVM (java hotspot vm)-> .class  
+
+node - JVM or JRE ---> .js
+
+
+why should i use it
+where to use
+how it runs
+
+browser -> js VM -->    chrome  - V8 engine
+			firefox- spider monkey
+			ie ,edge - chakra
+			safari - webkit
+
+JS-> es 3 ,es 4,5,6....9
+
+Ecmascript - standard
+
+most browsers understand ES 5 and ES 6
+
+IE 11 - doesnt support ES 6, few browsers too
+
+React - ES6 -  
+
+shim / polyfills  - converts es6 to es5
+
+transpiler - compiler --> S2S compiler
+
+react vs angular vs vue vs flutter
+
+intro react
+
+js framework
+
+view - 
+angular - mvc / mvvm / mv*
+
+both - es6
+arch -comp based arch
+SPA
+
+ 
+comp based arch
+
+BOM - Browser Object Model - window
+DOM - document obj model - document
+
+virtual DOM - 
+
+JSX
+
+webpack 
+
+create-react-app - node 
+
+npm i -g create-react-app
+
+comp
+
+props
+
+state
+
+life cycle, hooks (16)
+
+prop types
+
+forms
+
