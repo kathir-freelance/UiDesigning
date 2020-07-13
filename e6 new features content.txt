@@ -1,0 +1,307 @@
+1. Default Parameters in ES6
+
+before:
+
+var link = function (name, accType, url) {
+    var name = name || 'ajay'
+    var accType = accType || 'free'
+    var url = url || 'http://gmail.com';			
+	console.log(name+' '+accType+' '+url);
+ }
+
+after:
+
+var link = function(name = 'ajay', accType = 'free', url = 'http://gmail.com') {
+console.log(name+' '+accType+' '+url);
+}
+
+
+Template Literals in ES6:
+
+Template literals or interpolation in other languages is a way to output variables in the string.
+
+var name = 'Your name is ' + first + ' ' + last + '.'
+var url = 'http://localhost:3000/api/messages/' + id
+
+the above is in es5
+
+in es6:
+
+var name = `Your name is ${first} ${last}.`
+var url = `http://localhost:3000/api/messages/${id}`
+
+3. Multi-line Strings in ES6
+
+var fourAgreements = 'You have the right to be you.\n\
+    You can only be you when you do your best.'
+
+after:
+
+var fourAgreements = `You have the right to be you.
+    You can only be you when you do your best.`
+
+4. Destructuring Assignment in ES6
+
+in es5:
+========
+
+var list = [ 1, 2, 3 ];
+var a = list[0], b = list[2];
+var tmp = a; a = b; b = tmp;
+
+array matching:
+===================
+var list = [ 1, 2, 3 ]
+var [ a, , b ] = list
+[ b, a ] = [ a, b ]
+
+
+Parameter Context Matching:
+
+before: in es5
+function f (arg) {
+    var name = arg[0];
+    var val  = arg[1];
+    console.log(name, val);
+};
+
+f([ "bar", 42 ]);
+g({ name: "foo", val:  7 });
+
+after:
+
+function f ([ name, val ]) {
+    console.log(name, val)
+}
+function g ({ name: n, val: v }) {
+    console.log(n, v)
+}
+function h ({ name, val }) {
+    console.log(name)
+   console.log('value is '+val)
+}
+
+f([ "bar", 42 ])
+g({ name: "foo", val:  7 })
+h({ name: "bar", val: 42 })
+
+4. Class 
+
+var Shape = function (id, x, y) {
+    this.id = id;
+    this.move(x, y);
+};
+Shape.prototype.move = function (x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+
+after:
+
+class Shape {
+    constructor (id, x, y) {
+        this.id = id
+        this.move(x, y)
+    }
+    move (x, y) {
+        this.x = x
+        this.y = y
+    }
+}
+
+class inheritance:
+
+class Rectangle extends Shape {
+
+}
+
+base class access:
+class Shape {
+    …
+    toString () {
+        return `Shape(${this.id})`
+    }
+}
+class Rectangle extends Shape {
+    constructor (id, x, y, width, height) {
+        super(id, x, y)
+        …
+    }
+    toString () {
+        return "Rectangle > " + super.toString()
+    }
+}
+
+we can have static functions:
+
+static defaultCircle () {
+        return new Circle("default", 0, 0, 100)
+    }
+
+5. Symbols:
+Unique and immutable data type to be used as an identifier for object properties. Symbol can have an optional description, but for debugging purposes only.
+
+
+Symbol.for("app.foo") === Symbol.for("app.foo")
+
+const foo = Symbol()
+const bar = Symbol()
+typeof foo === "symbol"
+typeof bar === "symbol"
+let obj = {}
+obj[foo] = "foo"
+obj[bar] = "bar"
+JSON.stringify(obj) // {}
+Object.keys(obj) // []
+Object.getOwnPropertyNames(obj) // []
+Object.getOwnPropertySymbols(obj) // [ foo, bar ]
+
+
+6. for ...of loop
+
+Map/Set:
+
+
+before : in es5
+
+var s = {};
+s["hello"] = true; s["goodbye"] = true; s["hello"] = true;
+Object.keys(s).length === 2;
+s["hello"] === true;
+for (var key in s) // arbitrary order
+    if (s.hasOwnProperty(key))
+        console.log(s[key]);
+
+after : in es6
+
+let s = new Set()
+s.add("hello").add("goodbye").add("hello")
+s.size === 2
+s.has("hello") === true
+for (let key of s.values()) // insertion order
+    console.log(key)
+
+Map:
+
+let m = new Map()
+let s = Symbol()
+m.set("hello", 42)
+m.set(s, 34)
+m.get(s) === 34
+m.size === 2
+for (let [ key, val ] of m.entries())
+    console.log(key + " = " + val)
+
+before : in es5
+var m = {};
+// no equivalent in ES5
+m["hello"] = 42;
+// no equivalent in ES5
+// no equivalent in ES5
+Object.keys(m).length === 2;
+for (key in m) {
+    if (m.hasOwnProperty(key)) {
+        var val = m[key];
+        console.log(key + " = " + val);
+    }
+}
+
+7. typed arrays:
+
+8. Object Property Assignment
+
+Object.Assign()
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+
+9. Array Element Finding :
+
+in es 5:
+
+[ 1, 3, 4, 2 ].filter(function (x) { return x > 3; })[0]; // 4
+
+in es6:
+
+[ 1, 3, 4, 2 ].find(x => x > 3) // 4
+
+[ 1, 3, 4, 2 ].findIndex(x => x > 3) // 2 ---not possible in es5
+
+String repetition:
+
+" ".repeat(4 * depth)
+"foo".repeat(3)
+
+
+in es5:
+
+Array((4 * depth) + 1).join(" ");
+Array(3 + 1).join("foo");
+
+String methods like startsWith,endsWith,includes
+
+proior we use indexof only
+
+10. Type  Checking:
+
+Number.isSafeInteger(42) === true
+Number.isSafeInteger(9007199254740992) === false
+
+previously we have to create custom methods
+
+11. Sign determination
+
+console.log(Math.sign(7))   // 1
+console.log(Math.sign(0))   // 0
+console.log(Math.sign(-0))  // -0
+console.log(Math.sign(-7))  // -1
+console.log(Math.sign(NaN)) // NaN
+
+we have to create our  own functions in es5 
+
+12. I18N support:
+
+Number Formatting:
+
+var l10nEN = new Intl.NumberFormat("en-US")
+var l10nDE = new Intl.NumberFormat("de-DE")
+l10nEN.format(1234567.89) === "1,234,567.89"
+l10nDE.format(1234567.89) === "1.234.567,89"
+
+this is not there in es5
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+ 
+currency formatting:
+
+var l10nUSD = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
+var l10nGBP = new Intl.NumberFormat("en-GB", { style: "currency", currency: "GBP" })
+var l10nEUR = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" })
+l10nUSD.format(100200300.40) === "$100,200,300.40"
+l10nGBP.format(100200300.40) === "£100,200,300.40"
+l10nEUR.format(100200300.40) === "100.200.300,40 €"
+
+https://www.samanthaming.com/tidbits/30-how-to-format-currency-in-es6/
+
+var l10nEN = new Intl.DateTimeFormat("en-US")
+var l10nDE = new Intl.DateTimeFormat("de-DE")
+l10nEN.format(new Date("2015-01-02")) === "1/2/2015"
+l10nDE.format(new Date("2015-01-02")) === "2.1.2015"
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
+
+12. Object.Create():
+
+create objects usingObject.create(obj);
+
+13. Arrow Functions:
+w3schools
+
+14. Promises in ES6
+
+15. block scoped variables and functions, const variables
+
+16. modules import and export
+
+How to Use ES6 Today (Babel)
+ES6 is finalized, but not fully supported by all browsers (e.g., ES6 Firefox support). To use ES6 today, get a compiler like Babel. You can run it as a standalone tool or use with your build system. 
+
